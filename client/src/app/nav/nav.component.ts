@@ -16,6 +16,13 @@ export class NavComponent implements OnInit{
 
     }
 
+    getCurrentUser(){
+      this.accountService.currentSource$.subscribe({
+        next: user => this.loggedIn = !!user,
+        error: error => console.log(error)
+      })
+    }
+
   login() {
     this.accountService.login(this.model).subscribe({
       next: response => {
@@ -24,5 +31,10 @@ export class NavComponent implements OnInit{
       },
       error: error => console.log(error)
     })
+  }
+
+  logout(): void{
+    this.accountService.logout();
+    this.loggedIn = false;
   }
 }
