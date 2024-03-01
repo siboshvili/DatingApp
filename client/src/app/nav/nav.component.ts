@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {AccountService} from '../_services/account.service'
+import { AccountService } from '../_services/account.service';
+
 
 @Component({
   selector: 'app-nav',
@@ -8,26 +9,16 @@ import {AccountService} from '../_services/account.service'
 })
 export class NavComponent implements OnInit{
   model:any = {};
-  loggedIn = false;
-
-  constructor(private accountService: AccountService) {
+  constructor(public accountService: AccountService) {
   }
     ngOnInit(): void {
 
-    }
-
-    getCurrentUser(){
-      this.accountService.currentSource$.subscribe({
-        next: user => this.loggedIn = !!user,
-        error: error => console.log(error)
-      })
     }
 
   login() {
     this.accountService.login(this.model).subscribe({
       next: response => {
         console.log(response);
-        this.loggedIn = true;
       },
       error: error => console.log(error)
     })
@@ -35,6 +26,7 @@ export class NavComponent implements OnInit{
 
   logout(): void{
     this.accountService.logout();
-    this.loggedIn = false;
   }
+
+  protected readonly AccountService = AccountService;
 }
