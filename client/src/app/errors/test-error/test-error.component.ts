@@ -4,53 +4,50 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-test-error',
   templateUrl: './test-error.component.html',
-  styleUrls: ['./test-error.component.css']
+  styleUrls: ['./test-error.component.css'],
 })
-export class TestErrorComponent implements OnInit{
+export class TestErrorComponent implements OnInit {
   baseUrl = 'https://localhost:5001/api/';
   validationErrors: string[] = [];
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient) {}
+  ngOnInit(): void {}
+
+  get404Error() {
+    this.http.get(this.baseUrl + 'Buggy/not-found').subscribe({
+      next: (response) => console.log(response),
+      error: (error) => console.log(error),
+    });
   }
-    ngOnInit(): void {
-        throw new Error('Method not implemented.');
-    }
 
-    get404Error(){
-      this.http.get(this.baseUrl + 'Buggy/not-found').subscribe({
-        next: response => console.log(response),
-        error: error => console.log(error)
-      })
-    }
-
-  get400Error(){
+  get400Error() {
     this.http.get(this.baseUrl + 'Buggy/bad-request').subscribe({
-      next: response => console.log(response),
-      error: error => console.log(error)
-    })
+      next: (response) => console.log(response),
+      error: (error) => console.log(error),
+    });
   }
 
-  get500Error(){
+  get500Error() {
     this.http.get(this.baseUrl + 'Buggy/server-error').subscribe({
-      next: response => console.log(response),
-      error: error => console.log(error)
-    })
+      next: (response) => console.log(response),
+      error: (error) => console.log(error),
+    });
   }
 
-  get401Error(){
+  get401Error() {
     this.http.get(this.baseUrl + 'Buggy/auth').subscribe({
-      next: response => console.log(response),
-      error: error => console.log(error)
-    })
+      next: (response) => console.log(response),
+      error: (error) => console.log(error),
+    });
   }
 
-  get400ValidationError(){
+  get400ValidationError() {
     this.http.post(this.baseUrl + 'account/register', {}).subscribe({
-      next: response => console.log(response),
-      error: error => {
-        console.log(error)
+      next: (response) => console.log(response),
+      error: (error) => {
+        console.log(error);
         this.validationErrors = error;
-      }
-    })
+      },
+    });
   }
 }
