@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@angular/cdk": "^17.2.2",
     "ngx-toastr": "^18.0.0"
   }
 }
