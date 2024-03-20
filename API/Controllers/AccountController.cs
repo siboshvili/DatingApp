@@ -47,7 +47,8 @@ namespace API.Controllers
             {
                 Username = user.UserName,
                 Token = _tokenService.CreateToken(user),
-                KnownAs = user.KnowsAs
+                KnownAs = user.KnowsAs,
+                Gender = user.Gender
             };
         }
 
@@ -57,7 +58,7 @@ namespace API.Controllers
             var user = await _context.Users
             .Include(p => p.Photos)
             .SingleOrDefaultAsync(
-                x => x.UserName == loginDto.Username);
+            x => x.UserName == loginDto.Username);
 
             if (user == null) return Unauthorized("Invalid username");
 
@@ -67,15 +68,16 @@ namespace API.Controllers
 
             for (int i = 0; i < computedHsh.Length; i++)
             {
-                if (computedHsh[i] != user.PasswordHash[i]) return Unauthorized("Invalid password");
+                if (computedHsh[i] != user.PasswordHash[i]) return
+                Unauthorized("Invalid password");
             }
-
             return new UserDto
             {
                 Username = user.UserName,
                 Token = _tokenService.CreateToken(user),
                 PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
-                KnownAs = user.KnowsAs
+                KnownAs = user.KnowsAs,
+                Gender = user.Gender
             };
         }
 

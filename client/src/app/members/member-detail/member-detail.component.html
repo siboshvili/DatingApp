@@ -3,7 +3,7 @@
     <div class="card">
       <img
         src="{{ member.photoUrl || './assets/user.png' }}"
-        alt="{{ member.knowsAs }}"
+        alt="{{ member.knownAs }}"
         class="card-img-top img-thumbnail"
       />
       <div class="card-body">
@@ -35,7 +35,7 @@
 
   <div class="col-8">
     <tabset class="member-tabset" #memberTabs>
-      <tab heading="About {{ member.knowsAs }}">
+      <tab heading="About {{ member.knownAs }}">
         <h4>Description</h4>
         <p>{{ member.introduction }}</p>
         <h4>Looking for</h4>
