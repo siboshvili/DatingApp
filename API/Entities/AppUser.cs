@@ -36,7 +36,8 @@ namespace API.Entities
 
         public List<Photo> Photos { get; set; } = new();
 
-
+        public List<UserLike> LikeByUsers { get; set; }
+        public List<UserLike> LikedUsers { get; set; }
 
     }
 }
