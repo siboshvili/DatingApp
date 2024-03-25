@@ -17,9 +17,9 @@ namespace API.Data
             _context = context;
 
         }
-        public async Task<UserLike> GetUserLike(int sourceUserId, int targetUserId)
+        public async Task<UserLike> GetUserLike(int sourceUserId, int likedUserId)
         {
-            return await _context.Likes.FindAsync(sourceUserId, targetUserId);
+            return await _context.Likes.FindAsync(sourceUserId, likedUserId);
         }
 
         public async Task<IEnumerable<LikeDto>> GetUserLikes(string predicate, int userId)
@@ -55,7 +55,7 @@ namespace API.Data
         public async Task<AppUser> GetUserWithLikes(int userId)
         {
             return await _context.Users
-                .Include(x => x.LikeByUsers)
+                .Include(x => x.LikedUsers)
                 .FirstOrDefaultAsync(x => x.Id == userId);
         }
     }
