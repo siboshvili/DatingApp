@@ -52,7 +52,9 @@
           class="gallery"
         ></gallery>
       </tab>
-      <tab heading="Messages"> Messages will go here</tab>
+      <tab heading="Messages">
+        <app-member-messages [username]="member.userName"></app-member-messages>
+      </tab>
     </tabset>
   </div>
 </div>
