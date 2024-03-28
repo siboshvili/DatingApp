@@ -1,4 +1,5 @@
 using System.Text;
+using API.Data;
 using API.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -19,7 +20,8 @@ public static class IdentityServiceExtensions
         })
         .AddRoles<AppRole>()
         .AddRoleManager<RoleManager<AppRole>>()
-        .AddEntityFrameworkStores<DbContext>();
+        .AddEntityFrameworkStores<DataContext>();
+
 
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
