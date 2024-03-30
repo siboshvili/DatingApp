@@ -28,7 +28,7 @@ namespace API.Controllers
             _photoservice = photoservice;
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<PagedList<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
         {
@@ -47,6 +47,7 @@ namespace API.Controllers
             return Ok(users);
         }
 
+        [Authorize(Roles = "Member")]
         [HttpGet("{username}")]
         public async Task<ActionResult<MemberDto>> GetUsers(string username)
         {
