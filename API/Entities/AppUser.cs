@@ -25,8 +25,8 @@ namespace API.Entities
         public List<UserLike> LikeByUsers { get; set; }
         public List<UserLike> LikedUsers { get; set; }
 
-        public List<Message> MessageSent { get; set; }
-        public List<Message> MessageReceived { get; set; }
+        public List<Message> MessagesSent { get; set; }
+        public List<Message> MessagesReceived { get; set; }
 
         public ICollection<AppUserRole> UserRoles { get; set; }
 

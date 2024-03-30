@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace API.Data.Migrations
+namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
     partial class DataContextModelSnapshot : ModelSnapshot
@@ -15,7 +15,7 @@ namespace API.Data.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "6.0.0");
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.0");
 
             modelBuilder.Entity("API.Entities.AppRole", b =>
                 {
@@ -345,13 +345,13 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.Message", b =>
                 {
                     b.HasOne("API.Entities.AppUser", "Recipient")
-                        .WithMany("MessageReceived")
+                        .WithMany("MessagesReceived")
                         .HasForeignKey("RecipientId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("API.Entities.AppUser", "Sender")
-                        .WithMany("MessageSent")
+                        .WithMany("MessagesSent")
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -438,9 +438,9 @@ namespace API.Data.Migrations
 
                     b.Navigation("LikedUsers");
 
-                    b.Navigation("MessageReceived");
+                    b.Navigation("MessagesReceived");
 
-                    b.Navigation("MessageSent");
+                    b.Navigation("MessagesSent");
 
                     b.Navigation("Photos");
 
