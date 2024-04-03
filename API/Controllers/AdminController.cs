@@ -1,7 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using API.Entities;
-using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
