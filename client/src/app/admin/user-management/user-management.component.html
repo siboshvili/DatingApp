@@ -12,7 +12,9 @@
         <td>{{ user.username }}</td>
         <td>{{ user.roles }}</td>
         <td>
-          <button class="btn btn-info">Edit Roles</button>
+          <button (click)="openRolesModal()" class="btn btn-info">
+            Edit Roles
+          </button>
         </td>
       </tr>
     </tbody>
