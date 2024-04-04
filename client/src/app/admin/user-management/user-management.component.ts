@@ -13,6 +13,7 @@ export class UserManagementComponent implements OnInit {
   users: User[] = [];
   bsModalRef: BsModalRef<RolesModalComponent> =
     new BsModalRef<RolesModalComponent>();
+  availableRoles = ['Admin', 'Moderator', 'Member'];
 
   constructor(
     private adminServices: AdminService,
@@ -29,14 +30,32 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
-  openRolesModal() {
-    const initialState: ModalOptions = {
+  openRolesModal(user: User) {
+    const config = {
+      class: 'modal-dialog-centered',
       initialState: {
-        list: ['Do thing', 'Another thing', 'Something elese'],
-        title: 'Test modal',
+        username: user.username,
+        availableRoles: this.availableRoles,
+        selectedRoles: [...user.roles],
       },
     };
 
-    this.bsModalRef = this.modalService.show(RolesModalComponent, initialState);
+    this.bsModalRef = this.modalService.show(RolesModalComponent, config);
+    this.bsModalRef.onHidden?.subscribe({
+      next: () => {
+        const selectedRoles = this.bsModalRef.content?.selectedRoles;
+        if (!this.arrayEqual(selectedRoles!, user.roles)) {
+          this.adminServices
+            .updateUserRoles(user.username, selectedRoles!)
+            .subscribe({
+              next: (roles) => (user.roles = roles),
+            });
+        }
+      },
+    });
+  }
+
+  private arrayEqual(arr1: any[], arr2: any[]) {
+    return JSON.stringify(arr1.sort()) == JSON.stringify(arr2.sort());
   }
 }
