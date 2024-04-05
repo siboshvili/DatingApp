@@ -5,10 +5,12 @@ using API.Entities;
 using API.Exstensions;
 using API.Interface;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
 namespace API.SignalR
 {
+    [Authorize]
     public class MessageHub : Hub
     {
         private readonly IMessageRepository _messageRepository;
