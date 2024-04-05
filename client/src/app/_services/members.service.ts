@@ -26,7 +26,7 @@ export class MembersService {
       next: (user) => {
         if (user) {
           this.userParams = new UserParams(user);
-          this.user = user;
+          // this.user = user;
         }
       },
     });

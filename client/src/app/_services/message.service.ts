@@ -8,7 +8,8 @@ import {
 import { Message } from '../_models/message';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { User } from '../_models/user';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, take } from 'rxjs';
+import { BusyService } from './busy.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,20 +21,32 @@ export class MessageService {
   private messageThreadSource = new BehaviorSubject<Message[]>([]);
   messageThreadSource$ = this.messageThreadSource.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private busyService: BusyService) {}
 
   createHubConnection(user: User, otherUsername: string) {
+    this.busyService.busy();
     this.hubConnection = new HubConnectionBuilder()
-      .withUrl(this.baseUrl + 'message?user=' + otherUsername, {
+      .withUrl(this.hubUrl + 'message?user=' + otherUsername, {
         accessTokenFactory: () => user.token,
       })
       .withAutomaticReconnect()
       .build();
 
-    this.hubConnection.start().catch((error) => console.log(error));
+    this.hubConnection
+      .start()
+      .catch((error) => console.log(error))
+      .finally(() => this.busyService.idle());
 
     this.hubConnection.on('ReceiveMessageThread', (messages) => {
       this.messageThreadSource.next(messages);
+    });
+
+    this.hubConnection.on('NewMessage', (message) => {
+      this.messageThreadSource$.pipe(take(1)).subscribe({
+        next: (messages) => {
+          this.messageThreadSource.next([...messages, message]);
+        },
+      });
     });
   }
 
@@ -59,11 +72,13 @@ export class MessageService {
     );
   }
 
-  sendMessage(username: string, content: string) {
-    return this.http.post<Message>(this.baseUrl + 'messages', {
-      recipientUsername: username,
-      content,
-    });
+  async sendMessage(username: string, content: string) {
+    this.hubConnection
+      ?.invoke('SendMessage', {
+        recipientUsername: username,
+        content,
+      })
+      .catch((error) => console.log(error));
   }
 
   deleteMessage(id: number) {

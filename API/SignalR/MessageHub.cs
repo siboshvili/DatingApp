@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace API.SignalR
 {
-    [Authorize]
+    // [Authorize]
     public class MessageHub : Hub
     {
         private readonly IMessageRepository _messageRepository;
@@ -47,11 +47,11 @@ namespace API.SignalR
             if (username == createMessageDto.RecipientUsername.ToLower())
                 throw new HubException("You cannot send messages to yourself");
 
+
             var sender = await _userRepository.GetUserByUsernameAsync(username);
             var recipient = await _userRepository.GetUserByUsernameAsync(createMessageDto.RecipientUsername);
 
             if (recipient == null) throw new HubException("Not found user");
-
 
             var message = new Message
             {

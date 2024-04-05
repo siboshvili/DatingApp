@@ -6,7 +6,7 @@ import { Member } from 'src/app/_models/member';
 import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
 import { TimeagoModule } from 'ngx-timeago';
 import { MemberMessagesComponent } from '../member-messages/member-messages.component';
-import { MessageService } from 'src/app/_service/message.service';
+import { MessageService } from 'src/app/_services/message.service';
 import { Message } from 'src/app/_models/message';
 import { PresenceService } from 'src/app/_services/presence.service';
 import { AccountService } from 'src/app/_services/account.service';

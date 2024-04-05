@@ -3,7 +3,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { TimeagoModule } from 'ngx-timeago';
 import { Message } from 'src/app/_models/message';
-import { MessageService } from 'src/app/_service/message.service';
+import { MessageService } from 'src/app/_services/message.service';
 
 @Component({
   selector: 'app-member-messages',
@@ -25,11 +25,8 @@ export class MemberMessagesComponent implements OnInit {
     if (!this.username) return;
     this.messageService
       .sendMessage(this.username, this.messageContent)
-      .subscribe({
-        next: (message) => {
-          // this.messages.push(message);
-          // this.messageForm?.reset();
-        },
+      .then(() => {
+        this.messageForm?.reset();
       });
   }
 }
