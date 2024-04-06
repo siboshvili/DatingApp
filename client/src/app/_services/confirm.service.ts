@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { initialState } from 'ngx-bootstrap/timepicker/reducer/timepicker.reducer';
 import { ConfirmDialogComponent } from '../modals/confirm-dialog/confirm-dialog.component';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -14,17 +14,22 @@ export class ConfirmService {
   confirm(
     title = 'Confirmation',
     message = 'Are you sure you want to do this?',
-    btnText = 'Ok',
+    btnOkText = 'Ok',
     btnCancelText = 'Cancel'
-  ) {
+  ): Observable<boolean> {
     const confirm = {
       initialState: {
         title,
         message,
-        btnText,
+        btnOkText,
         btnCancelText,
       },
     };
     this.bsModalRef = this.modalService.show(ConfirmDialogComponent, confirm);
+    return this.bsModalRef.onHidden!.pipe(
+      map(() => {
+        return this.bsModalRef!.content!.result;
+      })
+    );
   }
 }
